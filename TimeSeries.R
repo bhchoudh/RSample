@@ -10,7 +10,7 @@ plot (tsdata)
 ## Make the model & use the model to forecast for a period h
 arimafit <- auto.arima(tsdata)
 arimafit
-fcast <- forecast(arimafit, h=7)
+fcast <- forecast(arimafit, h=20)
 plot(fcast)
 
 ##plot residuals to check autocorelation
