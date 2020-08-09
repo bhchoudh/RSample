@@ -21,6 +21,9 @@ logit <- glm(admit ~ gre+gpa+rank,data=traindata,family="binomial")
 summary(logit)
 predictdata <- predict(logit,testdata)
 predictdata
+summary (predictdata)
+table(testdata$admit,predictdata > .5)
+
 ##optional split ends
 
 
@@ -43,3 +46,15 @@ ldamodel <- lda(admit ~ gre+gpa+rank,data=df)
 summary(ldamodel)
 predictdata <- predict(ldamodel,testdata)
 predictdata
+
+
+## Simple regression 
+dftrain <- read.csv("c:/BhaskarCode/RegBMITrain.csv",header = T)
+dftrain$id <-NULL
+cor(dftrain)
+regmodel <- lm(dftrain$BMI ~., data = dftrain)
+summary(regmodel)
+dftest <- read.csv("c:/BhaskarCode/RegBMITest.csv",header = T)
+dftest$id = NULL
+regpredict <- predict(regmodel,dftest )
+regpredict
