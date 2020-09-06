@@ -1,52 +1,46 @@
-
-df<-read.csv(file.choose(),T)
+##df<-read.csv(file.choose(),T)
+df <- read.csv("c:/BhaskarCode/winequalitydecision.csv")
+df <- read.csv("c:/BhaskarCode/iris.csv")
+df <- read.csv("c:/BhaskarCode/admission.csv")
 str(df)
 df$rank <- as.factor(df$rank)
 df$admit <- as.factor(df$admit)
 
-logit <- glm(admit ~ gre+gpa+rank,data=df,family="binomial")
-summary(logit)
-testdata <- data.frame(gre=790,gpa=3.8,rank=as.factor(1))
-predictdata <- predict(logit,testdata)
-predictdata
-
-## optional to split data in train & test
-install.packages('caTools')
-library(caTools)
+##split between train & test data
+##install.packages('caTools')
+##library(caTools)
 set.seed(88)
-split <- sample.split(df, SplitRatio = 0.9999)
+split <- sample.split(df, SplitRatio = 0.99)
 traindata <- subset(df, split == TRUE)
 testdata <- subset(df, split == FALSE)
-logit <- glm(admit ~ gre+gpa+rank,data=traindata,family="binomial")
+str(traindata)
+str(testdata)
+
+##testdata <- data.frame(gre=790,gpa=3.8,rank=as.factor(1))
+
+## Logistic Regression for 2 class classification
+logit <- glm(admit ~ .,data=df,family="binomial")
 summary(logit)
 predictdata <- predict(logit,testdata)
 predictdata
 summary (predictdata)
-table(testdata$admit,predictdata > .5)
+head(predictdata)
+dfcomp <- data.frame(testdata$admit,predictdata)
+head(dfcomp)
+dfcomp
+table(testdata$admit,ifelse(predictdata > .4, 1,0))
 
-##optional split ends
-
-
-## Code for discriminant analysis
-library("MASS")
-ldamodel <- lda(admit ~ gre+gpa+rank,data=df)
-summary(ldamodel)
-testdata <- data.frame(gre=790,gpa=3.8,rank=as.factor(1))
-predictdata <- predict(ldamodel,testdata)
-predictdata
-
-## With train & test split
-install.packages('caTools')
-library(caTools)
-set.seed(88)
-split <- sample.split(df, SplitRatio = 0.9999)
-traindata <- subset(df, split == TRUE)
-testdata <- subset(df, split == FALSE)
-ldamodel <- lda(admit ~ gre+gpa+rank,data=df)
+## Discriminant analysis - multi class classification
+##library("MASS")
+ldamodel <- lda(admit ~ .,data=df)
+ldamodel
 summary(ldamodel)
 predictdata <- predict(ldamodel,testdata)
 predictdata
-
+dfcomp <- data.frame(testdata$admit ,predictdata$class)
+head(dfcomp)
+dfcomp
+table(testdata$admit,predictdata$class)
 
 ## Simple regression 
 dftrain <- read.csv("c:/BhaskarCode/RegBMITrain.csv",header = T)
