@@ -8,9 +8,12 @@ mtr = matrix(c(vct1,vct2),6,2)
 
 df = data.frame(vct1, vct2)
 colnames(df) <- c("Age", "Name")
+## inserting row in existing DF
+df[nrow(df)+1,] <- c(23,"Hilda")
 df1 <- data.frame("Age"= c(7,22),"Name"=c("Gini","Hilda"))
-##colnames(df1) <- c("Age", "Name")
+##Row wise merging of 2 DataFrame
 df3 <- rbind(df, df1)
+## Adding new column to existing DF
 df3$Country <-c ("IN", "IN","SG","IN","US","US","SG","US")
 str(df3)
 summary(df3)
@@ -32,7 +35,7 @@ pie (vct1, vct2)
 ## While & for loop & If/Else
 i = 1
 while (i < 6) {
-  print (vct[i])
+  print (vct3[i])
   i=i+1
 }
   
@@ -51,11 +54,11 @@ if (n < 5) {
   
 
 df= read.csv("Employee.csv",TRUE,",")
-df1<-read.csv(file.choose(),T)
+df<-read.csv(file.choose(),T)
 df
 df[,"salary"]
 df["salary"]
-df[2,3]
+df[4,3]
 df[2,]
 df[,5]
 
